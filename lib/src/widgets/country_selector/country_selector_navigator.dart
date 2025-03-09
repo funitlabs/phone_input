@@ -25,6 +25,7 @@ abstract class CountrySelectorNavigator {
   final Color? bottomSheetDragHandlerColor;
   final double? searchInputHeight;
   final double? searchInputWidth;
+  final String? locale;
 
   const CountrySelectorNavigator({
     this.countries,
@@ -47,6 +48,7 @@ abstract class CountrySelectorNavigator {
     this.bottomSheetDragHandlerColor,
     this.searchInputWidth,
     this.searchInputHeight,
+    this.locale,
   });
 
   Future<Country?> requestCountrySelector(BuildContext context);
@@ -55,6 +57,7 @@ abstract class CountrySelectorNavigator {
     required ValueChanged<Country> onCountrySelected,
     required bool isBottomSheet,
     ScrollController? scrollController,
+    String? locale,
   }) {
     return CountrySelector(
       countries: countries,
@@ -79,6 +82,7 @@ abstract class CountrySelectorNavigator {
       bottomSheetDragHandlerColor: bottomSheetDragHandlerColor,
       searchInputHeight: searchInputHeight,
       searchInputWidth: searchInputWidth,
+      locale: locale,
     );
   }
 
@@ -163,6 +167,7 @@ abstract class CountrySelectorNavigator {
     bool showCountryFlag,
     double? searchInputHeight,
     double? searchInputWidth,
+    String? locale,
   }) = ModalBottomSheetNavigator._;
 
   const factory CountrySelectorNavigator.draggableBottomSheet({
@@ -257,7 +262,8 @@ class DialogNavigator extends CountrySelectorNavigator {
           height: height,
           child: _getCountrySelector(
             isBottomSheet: false,
-            onCountrySelected: (country) => Navigator.of(context, rootNavigator: true).pop(country),
+            onCountrySelected: (country) =>
+                Navigator.of(context, rootNavigator: true).pop(country),
           ),
         ),
       ),
@@ -381,6 +387,7 @@ class ModalBottomSheetNavigator extends CountrySelectorNavigator {
     super.showCountryFlag = true,
     super.searchInputHeight,
     super.searchInputWidth,
+    super.locale,
   });
 
   @override
