@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:phone_input/l10n/generated/phone_field_localization.dart';
 import 'package:phone_input/l10n/generated/phone_field_localization_en.dart';
+import 'package:phone_input/l10n/generated/phone_field_localization_ja.dart';
+import 'package:phone_input/l10n/generated/phone_field_localization_ko.dart';
+import 'package:phone_input/l10n/generated/phone_field_localization_vi.dart';
+import 'package:phone_input/l10n/generated/phone_field_localization_zh.dart';
 import 'package:phone_input/src/number_parser/models/iso_code.dart';
 import 'package:phone_input/src/widgets/country_selector/localized_country_registry.dart';
 
@@ -83,6 +86,8 @@ class CountrySelector extends StatefulWidget {
   /// The width of the search input field, if specified.
   final double? searchInputWidth;
 
+  final String? locale;
+
   const CountrySelector({
     required this.onCountrySelected,
     required this.isBottomSheet,
@@ -106,6 +111,7 @@ class CountrySelector extends StatefulWidget {
     this.showCountryFlag = true,
     this.searchInputHeight,
     this.searchInputWidth,
+    this.locale,
     super.key,
   });
 
@@ -120,8 +126,17 @@ class CountrySelectorState extends State<CountrySelector> {
   @override
   didChangeDependencies() {
     super.didChangeDependencies();
-    final localization =
-        PhoneFieldLocalization.of(context) ?? PhoneFieldLocalizationEn();
+    final localization = (widget.locale == null || widget.locale == 'en')
+        ? PhoneFieldLocalizationEn()
+        : widget.locale == 'ja'
+            ? PhoneFieldLocalizationJa()
+            : widget.locale == 'ko'
+                ? PhoneFieldLocalizationKo()
+                : widget.locale == 'vi'
+                    ? PhoneFieldLocalizationVi()
+                    : widget.locale == 'zh'
+                        ? PhoneFieldLocalizationZh()
+                        : PhoneFieldLocalizationEn();
     final isoCodes = widget.countries ?? IsoCode.values;
     final countryRegistry = LocalizedCountryRegistry.cached(localization);
     final notFavoriteCountries =
