@@ -126,6 +126,8 @@ class CountrySelectorState extends State<CountrySelector> {
   @override
   didChangeDependencies() {
     super.didChangeDependencies();
+
+    debugPrint(widget.locale);
     final localization = (widget.locale == null || widget.locale == 'en')
         ? PhoneFieldLocalizationEn()
         : widget.locale == 'ja'
